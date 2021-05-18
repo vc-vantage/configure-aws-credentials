@@ -22,7 +22,10 @@ async function assumeRole(params) {
     roleDurationSeconds,
     roleSessionName,
     region,
-    roleSkipSessionTagging
+    roleSkipSessionTagging,
+    roleTagsAccessProject,
+    roleTagsAccessApplication,
+    roleTagsAccessEnvironment
   } = params;
   assert(
       [sourceAccountId, roleToAssume, roleDurationSeconds, roleSessionName, region].every(isDefined),
@@ -53,6 +56,18 @@ async function assumeRole(params) {
 
   if (isDefined(process.env.GITHUB_REF)) {
     tagArray.push({Key: 'Branch', Value: process.env.GITHUB_REF});
+  }
+
+  if (roleTagsAccessProject) {
+    tagArray.push({Key: 'access-project', Value: roleTagsAccessProject});
+  }
+
+  if (roleTagsAccessApplication) {
+    tagArray.push({Key: 'access-application', Value: roleTagsAccessApplication});
+  }
+
+  if (roleTagsAccessEnvironment) {
+    tagArray.push({Key: 'access-environment', Value: roleTagsAccessEnvironment});
   }
 
   const roleSessionTags = roleSkipSessionTagging ? undefined : tagArray;
@@ -211,6 +226,9 @@ async function run() {
     const roleSessionName = core.getInput('role-session-name', { required: false }) || ROLE_SESSION_NAME;
     const roleSkipSessionTaggingInput = core.getInput('role-skip-session-tagging', { required: false })|| 'false';
     const roleSkipSessionTagging = roleSkipSessionTaggingInput.toLowerCase() === 'true';
+    const roleTagsAccessProject = core.getInput('role-tags-access-project', { required: false }) || AWS_TAGS_PROJECT;
+    const roleTagsAccessApplication = core.getInput('role-tags-access-application', { required: false }) || AWS_TAGS_APPLICATION;
+    const roleTagsAccessEnvironment = core.getInput('role-tags-access-envionment', { required: false }) || AWS_TAGS_ENVIRONMENT;
 
     if (!region.match(REGION_REGEX)) {
       throw new Error(`Region is not valid: ${region}`);
@@ -249,7 +267,10 @@ async function run() {
         roleExternalId,
         roleDurationSeconds,
         roleSessionName,
-        roleSkipSessionTagging
+        roleSkipSessionTagging,
+        roleTagsAccessProject,
+        roleTagsAccessApplication,
+        roleTagsAccessEnvironment
       });
       exportCredentials(roleCredentials);
       await validateCredentials(roleCredentials.accessKeyId);
