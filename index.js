@@ -91,6 +91,9 @@ async function assumeRole(params) {
     TransitiveTagKeys: transitiveTagKeys
   };
 
+  core.debug(assumeRoleRequest)
+
+
   if (roleExternalId) {
     assumeRoleRequest.ExternalId = roleExternalId;
   }
