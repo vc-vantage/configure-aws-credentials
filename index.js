@@ -237,7 +237,7 @@ async function run() {
     const roleSkipSessionTagging = roleSkipSessionTaggingInput.toLowerCase() === 'true';
     const roleTagsAccessProject = core.getInput('role-tags-access-project', { required: false });
     const roleTagsAccessApplication = core.getInput('role-tags-access-application', { required: false });
-    const roleTagsAccessEnvironment = core.getInput('role-tags-access-envionment', { required: false });
+    const roleTagsAccessEnvironment = core.getInput('role-tags-access-environment', { required: false });
 
     if (!region.match(REGION_REGEX)) {
       throw new Error(`Region is not valid: ${region}`);
