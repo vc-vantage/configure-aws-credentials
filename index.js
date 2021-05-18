@@ -54,20 +54,25 @@ async function assumeRole(params) {
     {Key: 'Commit', Value: GITHUB_SHA},
   ];
 
+  const transitiveTagKeys = []
+
   if (isDefined(process.env.GITHUB_REF)) {
     tagArray.push({Key: 'Branch', Value: process.env.GITHUB_REF});
   }
 
   if (roleTagsAccessProject) {
     tagArray.push({Key: 'access-project', Value: roleTagsAccessProject});
+    transitiveTagKeys.push('access-project')
   }
 
   if (roleTagsAccessApplication) {
     tagArray.push({Key: 'access-application', Value: roleTagsAccessApplication});
+    transitiveTagKeys.push('access-application')
   }
 
   if (roleTagsAccessEnvironment) {
     tagArray.push({Key: 'access-environment', Value: roleTagsAccessEnvironment});
+    transitiveTagKeys.push('access-environment')
   }
 
   const roleSessionTags = roleSkipSessionTagging ? undefined : tagArray;
@@ -82,7 +87,8 @@ async function assumeRole(params) {
     RoleArn: roleArn,
     RoleSessionName: roleSessionName,
     DurationSeconds: roleDurationSeconds,
-    Tags: roleSessionTags
+    Tags: roleSessionTags,
+    TransitiveTagKeys: transitiveTagKeys
   };
 
   if (roleExternalId) {
