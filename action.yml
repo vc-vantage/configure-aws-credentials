@@ -46,6 +46,15 @@ inputs:
   role-skip-session-tagging:
     description: 'Skip session tagging during role assumption'
     required: false
+  role-tags-access-project:
+    description: 'Role session "access-project" tag'
+    required: false
+  role-tags-access-application:
+    description: 'Role session "access-application" tag'
+    required: false
+  role-tags-access-environment:
+    description: 'Role session "access-environment" tag'
+    required: false
 outputs:
   aws-account-id:
     description: 'The AWS account ID for the provided credentials'
