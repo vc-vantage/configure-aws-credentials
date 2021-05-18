@@ -226,9 +226,9 @@ async function run() {
     const roleSessionName = core.getInput('role-session-name', { required: false }) || ROLE_SESSION_NAME;
     const roleSkipSessionTaggingInput = core.getInput('role-skip-session-tagging', { required: false })|| 'false';
     const roleSkipSessionTagging = roleSkipSessionTaggingInput.toLowerCase() === 'true';
-    const roleTagsAccessProject = core.getInput('role-tags-access-project', { required: false }) || AWS_TAGS_PROJECT;
-    const roleTagsAccessApplication = core.getInput('role-tags-access-application', { required: false }) || AWS_TAGS_APPLICATION;
-    const roleTagsAccessEnvironment = core.getInput('role-tags-access-envionment', { required: false }) || AWS_TAGS_ENVIRONMENT;
+    const roleTagsAccessProject = core.getInput('role-tags-access-project', { required: false });
+    const roleTagsAccessApplication = core.getInput('role-tags-access-application', { required: false });
+    const roleTagsAccessEnvironment = core.getInput('role-tags-access-envionment', { required: false });
 
     if (!region.match(REGION_REGEX)) {
       throw new Error(`Region is not valid: ${region}`);
